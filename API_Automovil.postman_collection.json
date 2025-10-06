@@ -1,0 +1,226 @@
+{
+    "info": {
+        "name": "API Automovil",
+        "_postman_id": "b2a82d74-8b71-4f9b-9f52-35b9e8b3c1a3",
+        "description": "Colección Postman para probar la API REST de Automóviles y Usuarios.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Usuarios",
+            "item": [
+                {
+                    "name": "Registrar usuario",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"nombre\": \"Juan\",\n  \"apellido\": \"Pérez\",\n  \"correo\": \"juan@example.com\",\n  \"password\": \"123456\"\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/api/usuarios/register",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "usuarios",
+                                "register"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Login usuario",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "var jsonData = pm.response.json();",
+                                    "if (jsonData.token) {",
+                                    "   pm.environment.set('jwt', jsonData.token);",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"correo\": \"juan@example.com\",\n  \"password\": \"123456\"\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/api/usuarios/login",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "usuarios",
+                                "login"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Automóviles",
+            "item": [
+                {
+                    "name": "Listar automóviles",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "http://localhost:3000/api/automoviles",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "automoviles"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Crear automóvil",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwt}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"marca\": \"Toyota\",\n  \"modelo\": \"Corolla\",\n  \"ano\": 2020,\n  \"km\": 35000,\n  \"combustible\": \"Gasolina\",\n  \"transmision\": \"Automática\",\n  \"carroceria\": \"Sedán\",\n  \"descripcion\": \"Vehículo en excelente estado\"\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/api/automoviles",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "automoviles"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Obtener automóvil por ID",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "http://localhost:3000/api/automoviles/1",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "automoviles",
+                                "1"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Actualizar automóvil",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwt}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"marca\": \"Toyota\",\n  \"modelo\": \"Corolla SE\",\n  \"ano\": 2021,\n  \"km\": 25000,\n  \"combustible\": \"Gasolina\",\n  \"transmision\": \"Automática\",\n  \"carroceria\": \"Sedán\",\n  \"descripcion\": \"Actualizado: versión SE\"\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:3000/api/automoviles/1",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "automoviles",
+                                "1"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Eliminar automóvil",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwt}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "http://localhost:3000/api/automoviles/1",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000",
+                            "path": [
+                                "api",
+                                "automoviles",
+                                "1"
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "event": [],
+    "variable": [
+        {
+            "key": "jwt",
+            "value": ""
+        }
+    ]
+}
