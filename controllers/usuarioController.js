@@ -34,7 +34,7 @@ exports.login = (req, res) => {
       if (!validPass)
         return res.status(400).json({ mensaje: "Contraseña incorrecta" });
 
-      const token = jwt.sign({ id: usuario.id }, "mi_secreto", {
+      const token = jwt.sign({ id: usuario.id }, process.env.JWT_SECRET, {
         expiresIn: "1h",
       });
       res.json({ token });
