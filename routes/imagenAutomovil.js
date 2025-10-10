@@ -15,13 +15,19 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage,
   fileFilter: (req, file, cb) => {
-    // aceptar solo imágenes
     if (!file.mimetype.startsWith('image/')) return cb(new Error('Solo imágenes permitidas'), false);
     cb(null, true);
   },
   limits: { fileSize: 5 * 1024 * 1024 } // 5 MB
 });
 
+// listar imágenes (opcional query ?automovil_id=)
+router.get('/', imagenController.getAll);
+
+// obtener imagen por id
+router.get('/:id', imagenController.getById);
+
+// subir nueva imagen
 router.post('/', upload.single('imagen'), imagenController.create);
 
 module.exports = router;
