@@ -19,6 +19,7 @@ exports.create = (req, res) => {
 };
 
 exports.getAll = (req, res) => {
+  console.log('GET /imagenes called, query=', req.query); // <-- debug
   const { automovil_id } = req.query;
   const sql = automovil_id
     ? 'SELECT * FROM ImagenAutomovil WHERE automovil_id = ? ORDER BY es_principal DESC, created_at DESC'
@@ -26,7 +27,10 @@ exports.getAll = (req, res) => {
   const params = automovil_id ? [automovil_id] : [];
 
   db.query(sql, params, (err, rows) => {
-    if (err) return res.status(500).json({ error: err.message });
+    if (err) {
+      console.error('DB error getAll imagenes:', err);
+      return res.status(500).json({ error: err.message });
+    }
     res.json(rows);
   });
 };
