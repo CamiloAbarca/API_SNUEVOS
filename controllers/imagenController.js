@@ -10,7 +10,10 @@ exports.create = (req, res) => {
 
   es_principal = (es_principal === 'true' || es_principal === '1' || es_principal === true) ? 1 : 0;
 
-  const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+  // usa UPLOADS_BASE_URL si existe, si no usa host actual
+  const baseUrl = (process.env.UPLOADS_BASE_URL || `${req.protocol}://${req.get('host')}`).replace(/\/$/, '');
+  const fileUrl = `${baseUrl}/uploads/${req.file.filename}`;
+
   const sql = 'INSERT INTO ImagenAutomovil (automovil_id, url_imagen, descripcion, es_principal) VALUES (?, ?, ?, ?)';
   db.query(sql, [automovil_id, fileUrl, descripcion || null, es_principal], (err, result) => {
     if (err) return res.status(500).json({ error: err.message });

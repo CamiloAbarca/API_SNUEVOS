@@ -81,8 +81,9 @@ exports.deleteAutomovil = (req, res) => {
     const filenames = rows
       .map(r => {
         try {
-          const u = new URL(r.url_imagen);
-          return u.pathname.includes('/uploads/') ? path.basename(u.pathname) : null;
+          // aceptar URLs absolutas o rutas; obtener solo el basename
+          const urlPath = new URL(r.url_imagen, process.env.UPLOADS_BASE_URL || 'http://localhost').pathname;
+          return path.basename(urlPath);
         } catch {
           return null;
         }
