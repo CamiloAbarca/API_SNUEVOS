@@ -13,14 +13,15 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// servir imágenes subidas (antes de las rutas para que sean accesibles)
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// IMPORTANTE: Comenta o elimina esta línea si tu servidor web (Apache/Nginx)
+// ya está configurado para servir los archivos desde el directorio configurado en UPLOADS_PHYSICAL_PATH.
+// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use("/api/usuarios", usuarioRoutes);
 app.use("/api/automoviles", automovilRoutes);
 
 // montar la ruta de imágenes en /api/imagenes
-app.use('/api/imagenes', require('./routes/imagenAutomovil'));
+app.use("/api/imagenes", require("./routes/imagenAutomovil"));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () =>
